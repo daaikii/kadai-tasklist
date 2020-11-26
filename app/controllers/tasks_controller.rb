@@ -3,9 +3,7 @@ class TasksController < ApplicationController
     before_action :require_user_logged_in
     before_action :correct_user, only: [:edit,:update,:destroy]
     def index
-        if
             @tasks=current_user.tasks.all
-        end
     end
     
     def show
@@ -47,7 +45,10 @@ class TasksController < ApplicationController
     
     private
     def set_task
-        @task=current_user.tasks.find(params[:id])
+        @task=current_user.tasks.find_by(id: params[:id])
+        unless @task
+            redirect_to root_url
+        end
     end
     
     def task_params
