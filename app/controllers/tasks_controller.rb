@@ -1,7 +1,6 @@
 class TasksController < ApplicationController
-    before_action:set_task,only:[:show,:edit,:update]
     before_action :require_user_logged_in
-    before_action :correct_user, only: [:edit,:update,:destroy]
+    before_action :correct_user, only: [:show,:edit,:update,:destroy]
     def index
             @tasks=current_user.tasks.all
     end
@@ -44,13 +43,7 @@ class TasksController < ApplicationController
     
     
     private
-    def set_task
-        @task=current_user.tasks.find_by(id: params[:id])
-        unless @task
-            redirect_to root_url
-        end
-    end
-    
+
     def task_params
         params.require(:task).permit(:content,:status)
     end
